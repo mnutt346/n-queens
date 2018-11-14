@@ -79,12 +79,30 @@
     //
     // test if a specific row on this board contains a conflict
     hasRowConflictAt: function(rowIndex) {
-      return false; // fixme
+      let board = this.rows();
+      let boardRow = board[rowIndex];
+      let counter = 0;
+      for (let square of boardRow) {
+        if (square === 1) {
+          counter++;
+        }
+      }
+      if (counter > 1) {
+        return true;
+      }
+      return false;
     },
 
     // test if any rows on this board contain conflicts
     hasAnyRowConflicts: function() {
-      return false; // fixme
+      let board = this.rows();
+      let hasConflict = false;
+      for( let i = 0; i < board.length; i++ ){
+        if( this.hasRowConflictAt(i) ){
+          hasConflict = true;
+        }
+      }
+      return hasConflict;
     },
 
 
@@ -94,12 +112,31 @@
     //
     // test if a specific column on this board contains a conflict
     hasColConflictAt: function(colIndex) {
-      return false; // fixme
+      let board = this.rows();
+      var counter = 0; 
+      for( let row of board ){
+        if ( row[colIndex] === 1 ){
+          counter++;
+        }
+      }
+      if( counter > 1 ){
+        return true;
+      }
+      return false;
     },
 
     // test if any columns on this board contain conflicts
     hasAnyColConflicts: function() {
-      return false; // fixme
+      let board = this.rows();
+      let colNum = board[0].length;
+      let hasConflict = false;
+      for(let i = 0; i < colNum; i++) {
+        if(this.hasColConflictAt(i)) {
+          hasConflict = true;
+        }
+      }
+
+      return hasConflict;
     },
 
 
@@ -109,7 +146,18 @@
     //
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
-      return false; // fixme
+      let board = this.rows();
+      let colIndex;
+      let rowIndex;
+      if (majorDiagonalColumnIndexAtFirstRow < 0) {
+        colIndex = 0;
+        rowIndex = Math.abs(majorDiagonalColumnIndexAtFirstRow);
+      } else {
+        rowIndex = 0;
+        colIndex = majorDiagonalColumnIndexAtFirstRow;
+      }
+      
+
     },
 
     // test if any major diagonals on this board contain conflicts
