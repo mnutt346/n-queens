@@ -156,13 +156,30 @@
         rowIndex = 0;
         colIndex = majorDiagonalColumnIndexAtFirstRow;
       }
-      
-
+      let counter = 0;
+      for (let i = rowIndex; i < board.length; i++) {
+        if (board[i][colIndex] === 1) {
+          counter++;
+        }
+        colIndex += 1;
+      }
+      if (counter > 1) {
+        return true;
+      }
+      return false;
     },
 
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
-      return false; // fixme
+      let board = this.rows();
+      let n = board.length;
+      let hasConflict = false;
+      for (let i = -n + 1; i < n; i++) {
+        if (this.hasMajorDiagonalConflictAt(i)) {
+          hasConflict = true;
+        }
+      }
+      return hasConflict;
     },
 
 
@@ -172,12 +189,44 @@
     //
     // test if a specific minor diagonal on this board contains a conflict
     hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow) {
-      return false; // fixme
+      let board = this.rows();
+      let colIndex; 
+      let rowIndex;
+      if(minorDiagonalColumnIndexAtFirstRow < board.length-1){
+       rowIndex = 0;
+       colIndex = minorDiagonalColumnIndexAtFirstRow;
+      } else {
+        colIndex = board.length-1;
+        rowIndex = minorDiagonalColumnIndexAtFirstRow - (board.length-1); 
+      }
+      let counter = 0;
+      for( let i = colIndex; i >= 0; i--){
+        if( board[rowIndex][i] === 1 ){
+          counter++;
+        }
+        rowIndex++;
+        if(rowIndex >= board.length){
+          break;
+        }
+      }
+      if( counter > 1 ){
+        return true;
+      }
+      return false;
     },
 
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
-      return false; // fixme
+    let board = this.rows();
+    let n = board.length -1; 
+    
+    let hasConflict = false;
+    for( let i = 0 ; i <= n*2; i++ ){
+      if( this.hasMinorDiagonalConflictAt(i) ) {
+        hasConflict = true;
+      }
+    }
+    return hasConflict;
     }
 
     /*--------------------  End of Helper Functions  ---------------------*/
