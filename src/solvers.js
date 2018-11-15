@@ -16,7 +16,36 @@
 
 
 window.findNRooksSolution = function(n) {
-  var solution = undefined; //fixme
+
+  let board = new Board({n:n});
+  let recursiveCall = function(board, rookCount = 0, rowIndex = 0, colIndex = 0 ){
+
+    //Base Case #1 
+    //Check if board fits n Rooks with no conflicts 
+    if(!board.hasAnyColConflicts() && !board.hasAnyRowConflicts() && rookCount === n ){
+      return board;
+    }
+
+    board.togglePiece(rowIndex,colIndex);
+    
+    if(board.hasAnyColConflicts() || board.hasAnyRowConflicts()) {
+      board.togglePiece(rowIndex,colIndex);
+      rookCount--;
+    }
+    rookCount++;
+    colIndex++; 
+ 
+    // make changes to indices 
+    if(colIndex === n) {
+      rowIndex++;
+      colIndex = 0;
+    }
+    console.log("rowIndex:"+rowIndex+"colIndex:"+colIndex);
+    return recursiveCall(board,rookCount,rowIndex,colIndex);
+  } 
+
+  let solution = "HELLO";//recursiveCall(board);
+
 
   console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
   return solution;
