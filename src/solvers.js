@@ -33,53 +33,26 @@ window.findNRooksSolution = function(n) {
 
 // return the number of nxn chessboards that exist, with n rooks placed such that none of them can attack each other
 window.countNRooksSolutions = function(n) {
-  var solutionCount = 0; //fixme
-
+  var solutionCount = 0;
   let board = new Board({n:n});
-  let recursiveCall = function(board, rookCount = 0, rowIndex = 0, colIndex = 0 ){
+  
+  let recursion = function(row){
+    if (row === n) {
+      solutionCount++;
+      return;
+    }
 
-    console.log("BEGINNING");
-    console.log(rookCount);
-
-    board.togglePiece(rowIndex, colIndex);
-    rookCount++;
-
-    for (let r = rowIndex; r < board.rows().length; r++) {
-      for (let c = colIndex; c < board.rows().length; c++) {
-        
-        console.log("Unchecked board: " + JSON.stringify(board.rows()));
-
-      //check if solution found 
-        if(!board.hasAnyColConflicts() && !board.hasAnyRowConflicts() && rookCount === n){
-          solutionCount++;
-          board.togglePiece(r,c);
-          return
-        }
-
-        //check if conflict 
-        if( board.hasAnyColConflicts() || board.hasAnyRowConflicts() ){
-          console.log("Found Conflict");
-          console.log("R: "+r);
-          console.log("C: "+c);
-          board.togglePiece(r,c);
-          return;
-        }
-        // c++;
-        // if(c === n){
-        //   r++;
-        //   c=0;
-        // }
-        console.log("final RI:"+r);
-        console.log("final CI:"+c);
-        console.log("ENDING");
-        recursiveCall(board,rookCount,r,c); 
+    for (let i = 0; i < n; i++) {
+      board.togglePiece(row, i);
+      if (!board.hasAnyRowConflicts() && !board.hasAnyColConflicts()) {
+        recursion(row + 1);
       }
+      board.togglePiece(row, i);
     }
   }
 
-  recursiveCall(board);
+  recursion(0);
 
-  console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
   return solutionCount;
 };
 
