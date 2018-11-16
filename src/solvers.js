@@ -72,7 +72,7 @@ window.countNRooksSolutions = function(n) {
         console.log("final RI:"+r);
         console.log("final CI:"+c);
         console.log("ENDING");
-        recursiveCall(board,rookCount,r,c+1); 
+        recursiveCall(board,rookCount,r,c); 
       }
     }
   }
